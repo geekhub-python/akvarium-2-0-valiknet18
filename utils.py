@@ -1,4 +1,16 @@
 from random import choice
+from functools import wraps
+
+
+def food(*args):
+    def food_factory(func):
+        @wraps(func)
+        def wrapper(fish):
+            result = type(fish) in args
+
+            return func(fish, result)
+        return wrapper
+    return food_factory
 
 
 class Names:

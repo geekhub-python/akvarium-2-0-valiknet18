@@ -1,15 +1,20 @@
-from fish import Fish, Predator
+from occupants import Predator, Herbivores, Snail, Alga
 from random import randint
 from utils import Names
 
 
-class Aquarium():
+class Aquarium:
     def __init__(self):
-        self.fishes = FishCreator.get_fishes('fish') + FishCreator.get_fishes('predator')
+        self.fishes = FishCreator.get_fishes('fish')
+        self.fishes += FishCreator.get_fishes('alga')
+        self.fishes += FishCreator.get_fishes('snail')
+        self.fishes += FishCreator.get_fishes('predator')
 
 
-class FishCreator():
+class FishCreator:
     PREDATOR_TYPE = 'predator'
+    ALGA_TYPE = 'alga'
+    SNAIL_TYPE = 'snail'
 
     @classmethod
     def get_fishes(cls, fish_type):
@@ -20,16 +25,28 @@ class FishCreator():
         """
         if fish_type == cls.PREDATOR_TYPE:
             return cls.generate_predators()
+        elif fish_type == cls.ALGA_TYPE:
+            return cls.generate_algas()
+        elif fish_type == cls.SNAIL_TYPE:
+            return cls.generate_snails()
         else:
-            return cls.generate_normal_fishes()
+            return cls.generate_herbivores()
 
     @staticmethod
-    def generate_normal_fishes():
+    def generate_algas():
+        pass
+
+    @staticmethod
+    def generate_snails():
+        pass
+
+    @staticmethod
+    def generate_herbivores():
         count_fishes = randint(10, 50)
         fishes = []
 
         for i in range(count_fishes):
-            fish = Fish(Names.generate_name(), randint(1, 9))
+            fish = Herbivores(Names.generate_name(), randint(1, 9))
             fishes.append(fish)
 
         return fishes
