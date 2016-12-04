@@ -10,7 +10,7 @@ class Occupant:
         return False
 
 
-class Alga(Occupant):
+class Seaweed(Occupant):
     def __init__(self, name, weight):
         super().__init__(name, weight)
 
@@ -24,7 +24,7 @@ class Herbivores(Occupant):
     def __init__(self, name, weight):
         super().__init__(name, weight)
 
-    @food(Alga)
+    @food(Seaweed)
     def eat(self, fish, result=None):
         return fish
 
@@ -43,8 +43,8 @@ class Predator(Occupant):
 
 class Snail(Occupant):
     def __init__(self, name, weight):
-        super().__init___(name, weight)
+        super().__init__(name, weight)
 
-    @food(Alga)
+    @food(Seaweed)
     def eat(self, fish, result=None):
         return fish

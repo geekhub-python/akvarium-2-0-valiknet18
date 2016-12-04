@@ -5,7 +5,7 @@ from functools import wraps
 def food(*args):
     def food_factory(func):
         @wraps(func)
-        def wrapper(fish):
+        def wrapper(self, fish):
             result = type(fish) in args
 
             return func(fish, result)

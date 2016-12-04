@@ -2,36 +2,38 @@
 
 from random import choice
 from utils import BColors
-from aquarium import Aquarium
+from aquarium import Aquarium, AquariumFilter
 
-class Application():
+
+class Application:
     def __init__(self, aquarium):
+        """
+        :param aquarium: Aquarium
+        """
         self.aquarium = aquarium
+        self.filter = AquariumFilter(aquarium)
 
     def play(self):
-        while (len(self.aquarium.fishes) > 2):
-            # Хищники едят случайных рыб до тех пор пока не съедят всех
-            # а не случайные рыбы едят случайных рыб
-            fish1 = choice(self.aquarium.fishes)
-            fish2 = choice(self.aquarium.fishes)
-            if (fish1.eat(fish2)):
-                index = self.aquarium.fishes.index(fish2)
-                del self.aquarium.fishes[index]
+        count_snails = len(self.filter.get_snails())
+        count_predators = len(self.filter.get_predators())
 
-        print(" =RESULT OF CHASE= ")
+        while len(self.aquarium.occupants) > (count_snails + count_predators):
+            occupant1 = choice(self.aquarium.occupants)
+            occupant2 = choice(self.aquarium.occupants)
+            if occupant1.eat(occupant2):
+                index = self.aquarium.occupants.index(occupant2)
+                del self.aquarium.occupants[index]
+
+        print(" =RESULT= ")
         self.print_result()
 
     def print_result(self):
-        winner = max(self.aquarium.fishes, key=lambda item: item.weight)
-        looser = min(self.aquarium.fishes, key=lambda item: item.weight)
-
-        print(BColors.OKGREEN, 'Winner fish name:', winner.name, ', his weight:', winner.weight, ', victims: ' + str(winner.count_victims), BColors.ENDC)
-        print(BColors.FAIL, 'Looser fish name:', looser.name, ', his weight:', looser.weight, ', victims: ' + str(looser.count_victims), BColors.ENDC)
+        pass
 
 if __name__ == '__main__':
     aquarium = Aquarium()
 
-    print(BColors.BOLD, "Fishes in aquarium:", len(aquarium.fishes), BColors.ENDC)
+    print(BColors.BOLD, "Occupants in aquarium:", len(aquarium.occupants), BColors.ENDC)
 
     app = Application(aquarium)
     app.play()

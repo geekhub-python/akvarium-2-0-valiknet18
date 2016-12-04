@@ -1,23 +1,28 @@
-from occupants import Predator, Herbivores, Snail, Alga
+from occupants import Predator, Herbivores, Snail, Seaweed
 from random import randint
 from utils import Names
 
 
 class Aquarium:
     def __init__(self):
-        self.fishes = FishCreator.get_fishes('fish')
-        self.fishes += FishCreator.get_fishes('alga')
-        self.fishes += FishCreator.get_fishes('snail')
-        self.fishes += FishCreator.get_fishes('predator')
+        self.occupants = FishCreator.get_occupants('fish')
+        self.occupants += FishCreator.get_occupants('seaweed')
+        self.occupants += FishCreator.get_occupants('snail')
+        self.occupants += FishCreator.get_occupants('predator')
 
 
 class FishCreator:
     PREDATOR_TYPE = 'predator'
-    ALGA_TYPE = 'alga'
+    SEAWEED_TYPE = 'seaweed'
     SNAIL_TYPE = 'snail'
 
+    MAX_SEAWEED_COUNT = 45
+    MAX_SNAILS_COUNT = 3
+    MAX_HERBIVORES_COUNT = 50
+    MAX_PREDATORS_COUNT = 2
+
     @classmethod
-    def get_fishes(cls, fish_type):
+    def get_occupants(cls, fish_type):
         """
         Fish factory
         :param fish_type: string
@@ -25,24 +30,38 @@ class FishCreator:
         """
         if fish_type == cls.PREDATOR_TYPE:
             return cls.generate_predators()
-        elif fish_type == cls.ALGA_TYPE:
-            return cls.generate_algas()
+        elif fish_type == cls.SEAWEED_TYPE:
+            return cls.generate_seaweeds()
         elif fish_type == cls.SNAIL_TYPE:
             return cls.generate_snails()
         else:
             return cls.generate_herbivores()
 
-    @staticmethod
-    def generate_algas():
-        pass
+    @classmethod
+    def generate_seaweeds(cls):
+        count_seaweeds = randint(7, cls.MAX_SEAWEED_COUNT)
+        algas = []
 
-    @staticmethod
-    def generate_snails():
-        pass
+        for i in range(count_seaweeds):
+            alga = Seaweed(Names.generate_name(), randint(1, 3))
+            algas.append(alga)
 
-    @staticmethod
-    def generate_herbivores():
-        count_fishes = randint(10, 50)
+        return algas
+
+    @classmethod
+    def generate_snails(cls):
+        count_snails = randint(1, cls.MAX_SNAILS_COUNT)
+        snails = []
+
+        for i in range(count_snails):
+            snail = Snail(Names.generate_name(), randint(1, 5))
+            snails.append(snail)
+
+        return snails
+
+    @classmethod
+    def generate_herbivores(cls):
+        count_fishes = randint(10, cls.MAX_HERBIVORES_COUNT)
         fishes = []
 
         for i in range(count_fishes):
@@ -51,12 +70,31 @@ class FishCreator:
 
         return fishes
 
-    @staticmethod
-    def generate_predators():
+    @classmethod
+    def generate_predators(cls):
         predators = []
 
-        for i in range(2):
+        for i in range(cls.MAX_PREDATORS_COUNT):
             predator = Predator(Names.generate_name(), 10)
             predators.append(predator)
 
         return predators
+
+
+class AquariumFilter:
+    def __init__(self, aquarium):
+        """
+
+        :param aquarium: Aquarium
+        :return:
+        """
+        self.aquarium = aquarium
+
+    def _filter_by_class_name(self, class_name):
+        return [occupant for occupant in self.aquarium.occupants if isinstance(occupant, class_name)]
+
+    def get_predators(self):
+        return self._filter_by_class_name(Predator)
+
+    def get_snails(self):
+        return self._filter_by_class_name(Snail)
