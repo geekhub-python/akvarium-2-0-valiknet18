@@ -25,10 +25,15 @@ class Application:
                 del self.aquarium.occupants[index]
 
         print(" =RESULT= ")
-        self.print_result()
+        self.print_result(self.filter.get_snails())
+        self.print_result(self.filter.get_predators())
 
-    def print_result(self):
-        pass
+    @staticmethod
+    def print_result(occupants):
+        occupants = sorted(occupants, key=lambda occupant: occupant.weight, reverse=True)
+
+        for occupant in occupants:
+            print(occupant.__class__.__name__ + " \"" + occupant.name + "\", weight: " + str(occupant.weight) + ", victims: " + str(occupant.victims))
 
 if __name__ == '__main__':
     aquarium = Aquarium()

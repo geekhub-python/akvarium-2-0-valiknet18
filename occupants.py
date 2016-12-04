@@ -5,9 +5,17 @@ class Occupant:
     def __init__(self, name, weight):
         self.name = name
         self.weight = weight
+        self.victims = 0
 
-    def eat(self, fish, result=None):
-        return False
+    def eat(self, fish, result=False):
+        if not result:
+            return False
+
+        self.victims += 1
+        self.weight += fish.weight
+        print(self.name, "say:", "\"" + fish.name + "\"", 'you\'re looking so tasty')
+
+        return True
 
 
 class Seaweed(Occupant):
@@ -15,9 +23,8 @@ class Seaweed(Occupant):
         super().__init__(name, weight)
 
     @food()
-    def eat(self, fish, result=None):
-        print("I'm alga, i'm eat only sun and oxygen")
-        return False
+    def eat(self, fish, result=False):
+        return super().eat(fish, result)
 
 
 class Herbivores(Occupant):
@@ -25,8 +32,8 @@ class Herbivores(Occupant):
         super().__init__(name, weight)
 
     @food(Seaweed)
-    def eat(self, fish, result=None):
-        return fish
+    def eat(self, fish, result=False):
+        return super().eat(fish, result)
 
 
 class Predator(Occupant):
@@ -37,8 +44,8 @@ class Predator(Occupant):
         self.count_victims = 0
 
     @food(Herbivores)
-    def eat(self, fish, result=None):
-        return fish
+    def eat(self, fish, result=False):
+        return super().eat(fish, result)
 
 
 class Snail(Occupant):
@@ -46,5 +53,5 @@ class Snail(Occupant):
         super().__init__(name, weight)
 
     @food(Seaweed)
-    def eat(self, fish, result=None):
-        return fish
+    def eat(self, fish, result=False):
+        return super().eat(fish, result)

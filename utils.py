@@ -8,7 +8,7 @@ def food(*args):
         def wrapper(self, fish):
             result = type(fish) in args
 
-            return func(fish, result)
+            return func(self, fish, result)
         return wrapper
     return food_factory
 
@@ -60,6 +60,7 @@ class Names:
     @classmethod
     def generate_name(cls):
         return choice(cls.NAMES)
+
 
 class BColors:
     HEADER = '\033[95m'
