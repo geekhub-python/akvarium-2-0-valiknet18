@@ -1,12 +1,15 @@
 from utils import BColors, food
-
+from abc import ABCMeta, abstractmethod
 
 class Occupant:
+    __metaclass__ = ABCMeta
+
     def __init__(self, name, weight):
         self.name = name
         self.weight = weight
         self.victims = 0
 
+    @abstractmethod
     def eat(self, fish, result=False):
         if not result:
             return False
