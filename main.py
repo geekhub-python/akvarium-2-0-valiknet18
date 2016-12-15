@@ -3,6 +3,7 @@
 from random import choice
 from utils import BColors
 from aquarium import Aquarium, AquariumFilter
+from exception import FoodError
 
 
 class Application:
@@ -20,9 +21,13 @@ class Application:
         while len(self.aquarium.occupants) > (count_snails + count_predators):
             occupant1 = choice(self.aquarium.occupants)
             occupant2 = choice(self.aquarium.occupants)
-            if occupant1.eat(occupant2):
+
+            try:
+                occupant1.eat(occupant2)
                 index = self.aquarium.occupants.index(occupant2)
                 del self.aquarium.occupants[index]
+            except FoodError as e:
+                print(e.message)
 
         print(" =RESULT= ")
         self.print_result(self.filter.get_snails())

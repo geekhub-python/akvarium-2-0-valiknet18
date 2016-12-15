@@ -1,5 +1,6 @@
 from utils import BColors, food
 from abc import ABCMeta, abstractmethod
+from exception import FoodError
 
 class Occupant:
     __metaclass__ = ABCMeta
@@ -12,7 +13,7 @@ class Occupant:
     @abstractmethod
     def eat(self, fish, result=False):
         if not result:
-            return False
+            raise FoodError("I`m doesn`t eat current occupant")
 
         self.victims += 1
         self.weight += fish.weight
