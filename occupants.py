@@ -23,6 +23,8 @@ class Occupant:
 
 
 class Seaweed(Occupant):
+    MAX_WEIGHT = 3
+
     def __init__(self, name, weight):
         super().__init__(name, weight)
 
@@ -32,6 +34,8 @@ class Seaweed(Occupant):
 
 
 class Herbivores(Occupant):
+    MAX_WEIGHT = 9
+
     def __init__(self, name, weight):
         super().__init__(name, weight)
 
@@ -53,6 +57,8 @@ class Predator(Occupant):
 
 
 class Snail(Occupant):
+    MAX_WEIGHT = 5
+
     def __init__(self, name, weight):
         super().__init__(name, weight)
 

@@ -15,6 +15,7 @@ class FishCreator:
     PREDATOR_TYPE = 'predator'
     SEAWEED_TYPE = 'seaweed'
     SNAIL_TYPE = 'snail'
+    HERBIVORES_TYPE = 'herbivores'
 
     MAX_SEAWEED_COUNT = 45
     MAX_SNAILS_COUNT = 3
@@ -43,7 +44,7 @@ class FishCreator:
         algas = []
 
         for i in range(count_seaweeds):
-            alga = Seaweed(Names.generate_name(), randint(1, 3))
+            alga = Seaweed(Names.generate_name(), randint(1, Seaweed.MAX_WEIGHT))
             algas.append(alga)
 
         return algas
@@ -54,7 +55,7 @@ class FishCreator:
         snails = []
 
         for i in range(count_snails):
-            snail = Snail(Names.generate_name(), randint(1, 5))
+            snail = Snail(Names.generate_name(), randint(1, Snail.MAX_WEIGHT))
             snails.append(snail)
 
         return snails
@@ -65,7 +66,7 @@ class FishCreator:
         fishes = []
 
         for i in range(count_fishes):
-            fish = Herbivores(Names.generate_name(), randint(1, 9))
+            fish = Herbivores(Names.generate_name(), randint(1, Herbivores.MAX_WEIGHT))
             fishes.append(fish)
 
         return fishes
@@ -75,7 +76,7 @@ class FishCreator:
         predators = []
 
         for i in range(cls.MAX_PREDATORS_COUNT):
-            predator = Predator(Names.generate_name(), 10)
+            predator = Predator(Names.generate_name(), Predator.DEFAULT_PREDATOR_WEIGHT)
             predators.append(predator)
 
         return predators
@@ -90,11 +91,11 @@ class AquariumFilter:
         """
         self.aquarium = aquarium
 
-    def _filter_by_class_name(self, class_name):
+    def filter_by_class_name(self, class_name):
         return [occupant for occupant in self.aquarium.occupants if isinstance(occupant, class_name)]
 
     def get_predators(self):
-        return self._filter_by_class_name(Predator)
+        return self.filter_by_class_name(Predator)
 
     def get_snails(self):
-        return self._filter_by_class_name(Snail)
+        return self.filter_by_class_name(Snail)
